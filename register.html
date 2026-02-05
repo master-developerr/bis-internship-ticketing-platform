@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply | BIS AutoCAD Internship</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* PALETTE */
+            --blue: #0033A0;
+            --red: #D32F2F;
+            --gold: #FFC107;
+            --black: #000000;
+            --white: #FFFFFF;
+            --bg: #F0F0F0;
+
+            /* TOKENS */
+            --border-thick: 3px solid var(--black);
+            --border-thin: 2px solid var(--black);
+            --shadow-hard: 6px 6px 0px var(--black);
+            --shadow-hover: 4px 4px 0px var(--black);
+            --radius: 12px;
+
+            --font-head: 'Space Grotesk', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg);
+            color: var(--black);
+            min-height: 100vh;
+            border-top: 10px solid var(--red);
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: var(--white);
+            border-bottom: var(--border-thick);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-link {
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+            color: var(--blue);
+        }
+
+        .brand-text {
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 20px;
+            background: var(--black);
+            color: var(--white);
+            padding: 8px 16px;
+            transform: rotate(-2deg);
+        }
+
+        /* --- FORM CONTAINER --- */
+        .page-wrapper {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: var(--white);
+            border: var(--border-thick);
+            box-shadow: var(--shadow-hard);
+            border-radius: var(--radius);
+            padding: 40px;
+        }
+
+        h1 {
+            font-family: var(--font-head);
+            font-size: 2.5rem;
+            line-height: 1;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        /* --- QR SECTION --- */
+        .qr-box {
+            background: var(--gold);
+            border: var(--border-thick);
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .qr-box img {
+            width: 220px;
+            height: 220px;
+            border: var(--border-thin);
+            background: white;
+        }
+
+        /* --- INPUTS --- */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 800;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            border: var(--border-thin);
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1rem;
+            background: #FAFAFA;
+            outline: none;
+            transition: 0.2s;
+            border-radius: 8px;
+        }
+
+        input:focus {
+            background: #fff;
+            box-shadow: 4px 4px 0px var(--blue);
+            border-color: var(--blue);
+        }
+
+        /* --- FILE UPLOAD --- */
+        .file-drop {
+            border: 2px dashed var(--black);
+            background: #eee;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            transition: 0.2s;
+        }
+
+        .file-drop:hover {
+            background: #E3F2FD;
+            border-color: var(--blue);
+        }
+
+        .file-drop input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* --- BUTTON --- */
+        .btn-submit {
+            width: 100%;
+            background-color: var(--black) !important;
+            color: #ffffff !important;
+            padding: 20px;
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-hard);
+            border: 2px solid transparent;
+            margin-top: 20px;
+            transition: 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+            border-radius: 8px;
+            /* Ensure radius matches theme */
+        }
+
+        .btn-submit:hover {
+            background: var(--white);
+            color: var(--black);
+            border: var(--border-thick);
+            transform: translate(-4px, -4px);
+            box-shadow: 8px 8px 0px var(--black);
+        }
+
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader[hidden] {
+            display: none !important;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* MESSAGES */
+        .message {
+            margin-top: 20px;
+            padding: 20px;
+            border: var(--border-thick);
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-align: center;
+            display: none;
+            border-radius: 8px;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.success {
+            background: #C8E6C9;
+            color: #1B5E20;
+            box-shadow: 4px 4px 0px #1B5E20;
+        }
+
+        .message.error {
+            background: #FFCDD2;
+            color: #B71C1c;
+            box-shadow: 4px 4px 0px #B71C1c;
+        }
+
+        @media(max-width: 600px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .qr-box {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .qr-box img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="back-link">← BACK TO HOME</a>
+        <div class="brand-text">BIS CUSAT</div>
+    </header>
+
+    <div class="page-wrapper">
+        <div class="form-card">
+            <h1>Secure Your<br>Seat.</h1>
+
+            <div class="qr-box">
+                <img src="payment.jpg" alt="QR Code">
+                <div style="text-align: left;">
+                    <div style="font-weight: 800; font-size: 1.1rem; margin-bottom: 5px;">STEP 1: PAY ₹1000</div>
+                    <div style="font-size: 0.9rem; line-height: 1.4;">Scan this QR to pay the advance booking fee via
+                        GPay / PhonePe / Paytm.</div>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--red); margin-top: 8px;">* Save
+                        Screenshot of Payment</div>
+                </div>
+            </div>
+
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="name" placeholder="Name as per certificate" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" placeholder="active.email@domain.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="phone" placeholder="WhatsApp Number preferred" pattern="\d{10}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Transaction ID (12 Digits)</label>
+                    <input type="text" id="transactionId" placeholder="UPI Ref ID: 4321xxxxxxxx" pattern="\d{12}"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Proof</label>
+                    <div class="file-drop">
+                        <input type="file" id="screenshot" accept="image/*" required>
+                        <div style="font-size: 2rem; margin-bottom: 10px;">📂</div>
+                        <div id="file-name" style="font-weight: 700;">Click to Upload Screenshot</div>
+                        <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">JPG/PNG Only</div>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-submit">
+                    <span class="btn-text">Confirm Registration</span>
+                    <div class="loader" hidden></div>
+                </button>
+
+                <div id="message" class="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

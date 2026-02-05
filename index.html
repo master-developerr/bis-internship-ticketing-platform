@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCAD Internship – January 2025</title>
+    <!-- Fonts: Space Grotesk (Headings) + Plus Jakarta Sans (Body) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* PALETTE */
+            --blue: #0033A0;
+            --red: #D32F2F;
+            --gold: #FFC107;
+            --black: #000000;
+            --white: #FFFFFF;
+            --bg: #F0F0F0;
+
+            /* NEO-BRUTALISM TOKENS */
+            --border-thick: 3px solid var(--black);
+            --border-thin: 2px solid var(--black);
+            --shadow-hard: 6px 6px 0px var(--black);
+            --shadow-hard-hover: 10px 10px 0px var(--black);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+
+            --font-head: 'Space Grotesk', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--gold);
+            /* Bold BG choice common in Brutalism, or use white? Let's use a soft off-white for Bento contrast */
+            background-color: #F8F8F8;
+            color: var(--black);
+            overflow-x: hidden;
+            border-top: 10px solid var(--blue);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 40px;
+            background: var(--white);
+            border-bottom: var(--border-thick);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            border: 2px solid transparent;
+            padding: 6px 16px;
+            border-radius: 50px;
+            transition: 0.2s;
+        }
+
+        nav a:hover {
+            border: 2px solid var(--black);
+            background: var(--gold);
+        }
+
+        /* Top Right Text Requirement */
+        .brand-text {
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 20px;
+            background: var(--black);
+            color: var(--white);
+            padding: 8px 16px;
+            transform: rotate(-2deg);
+        }
+
+        @media(max-width: 768px) {
+            nav {
+                display: none;
+            }
+        }
+
+        @media(max-width: 480px) {
+            .brand-text {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+
+            .container {
+                margin-top: 30px;
+            }
+
+            h1 {
+                font-size: 2.25rem !important;
+            }
+
+            .box {
+                padding: 20px !important;
+            }
+
+            .cta-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .logos-row img {
+                height: 40px !important;
+            }
+
+            .bento-grid {
+                gap: 16px;
+            }
+        }
+
+        /* --- MAIN CONTAINER --- */
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        /* --- HERO BENTO GRID --- */
+        /* 
+           Layout:
+           [ Title/CTA (Large) ] [ Date/Stats ]
+           [ Logos ] [ Feature 1 ] [ Feature 2 ]
+        */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+            grid-auto-rows: minmax(180px, auto);
+        }
+
+        .box {
+            background: var(--white);
+            border: var(--border-thick);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-hard);
+            padding: 30px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .box:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: var(--shadow-hard-hover);
+        }
+
+        /* 1. HERO TITLE BOX */
+        .box-hero {
+            grid-column: span 8;
+            grid-row: span 2;
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+        }
+
+        h1 {
+            font-family: var(--font-head);
+            font-size: 4.5rem;
+            line-height: 0.95;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: var(--blue);
+            color: var(--white);
+            font-weight: 800;
+            font-size: 1.2rem;
+            padding: 20px 40px;
+            border: var(--border-thick);
+            box-shadow: var(--shadow-hard);
+            cursor: pointer;
+            text-transform: uppercase;
+            width: fit-content;
+            transition: 0.2s;
+        }
+
+        .cta-btn:hover {
+            background: var(--gold);
+            color: var(--black);
+            transform: translate(-4px, -4px);
+            box-shadow: 10px 10px 0px var(--black);
+        }
+
+        /* 2. STATS/DATE BOX */
+        .box-date {
+            grid-column: span 4;
+            background: var(--red);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .date-big {
+            font-size: 3rem;
+            font-family: var(--font-head);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .tag {
+            background: var(--black);
+            color: white;
+            padding: 4px 12px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        /* 3. LOGOS BOX (Prominent) */
+        .box-logos {
+            grid-column: span 4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--gold);
+        }
+
+        .logos-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .logos-row img {
+            height: 70px;
+            width: auto;
+            object-fit: contain;
+            filter: grayscale(100%) contrast(120%);
+            transition: 0.2s;
+            mix-blend-mode: multiply;
+        }
+
+        .box-logos:hover img {
+            filter: none;
+            transform: scale(1.1);
+        }
+
+        .box-label {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-weight: 800;
+            font-size: 12px;
+            text-transform: uppercase;
+            border: 2px solid black;
+            padding: 2px 8px;
+            background: white;
+        }
+
+        /* 4. CURRICULUM PREVIEW */
+        .box-feature {
+            grid-column: span 4;
+            background: var(--white);
+        }
+
+        .feat-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .feat-title {
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-family: var(--font-head);
+        }
+
+        /* 5. PRICING BOX */
+        .box-price {
+            grid-column: span 4;
+            grid-row: span 1;
+            background: var(--black);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .price-val {
+            font-size: 3.5rem;
+            color: var(--gold);
+            font-weight: 700;
+            line-height: 1;
+            font-family: var(--font-head);
+        }
+
+        .price-sub {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* --- DETAILED SECTION (Below Grid) --- */
+        .details-section {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        .content-block {
+            background: var(--white);
+            border: var(--border-thick);
+            box-shadow: var(--shadow-hard);
+            padding: 40px;
+            border-radius: var(--radius-md);
+        }
+
+        h2 {
+            font-family: var(--font-head);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: var(--border-thin);
+            background: #fafafa;
+            transition: 0.2s;
+        }
+
+        .check-item:hover {
+            background: var(--gold);
+            border-color: black;
+            transform: translateX(10px);
+        }
+
+        .accordion-btn {
+            width: 100%;
+            text-align: left;
+            padding: 20px;
+            border: var(--border-thin);
+            background: white;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            transition: 0.2s;
+        }
+
+        .accordion-btn:hover {
+            background: var(--blue);
+            color: white;
+        }
+
+        .accordion-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.3s;
+            padding: 0 20px;
+            border-left: var(--border-thick);
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 80px;
+            padding: 40px;
+            background: var(--black);
+            color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 10px solid var(--red);
+        }
+
+        @media(max-width: 900px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .box-hero,
+            .box-date,
+            .box-logos,
+            .box-feature,
+            .box-price {
+                grid-column: span 1;
+                grid-row: auto;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            .details-section {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 20px;
+            }
+
+            .brand-text {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="#about">Overview</a>
+            <a href="#learn">Curriculum</a>
+            <a href="#price">Fees</a>
+        </nav>
+        <div class="brand-text">BIS CUSAT</div>
+    </header>
+
+    <div class="container">
+
+        <!-- BENTO HERO -->
+        <div class="bento-grid">
+
+            <!-- 1. HERO MAIN -->
+            <div class="box box-hero">
+                <div style="font-weight: 800; color: var(--blue); margin-bottom: 10px; letter-spacing: 2px;">SUMMER
+                    INTERNSHIP 2025</div>
+                <h1>Master<br>Civil Design.</h1>
+                <p style="font-size: 1.2rem; font-weight: 500; margin-bottom: 30px; max-width: 500px;">
+                    14 Days. Real Projects. Double Certification. <br>
+                    Join the elite cohort at <span style="background:var(--gold); padding:0 4px;">CUSAT Campus</span>.
+                </p>
+                <a href="register.html" class="cta-btn">Start Application</a>
+            </div>
+
+            <!-- 2. DATE -->
+            <div class="box box-date">
+                <div class="tag">JANUARY</div>
+                <div class="date-big">17-31</div>
+                <div style="font-weight: 600;">2025</div>
+            </div>
+
+            <!-- 3. LOGOS -->
+            <div class="box box-logos">
+                <div class="box-label">POWERED BY</div>
+                <div class="logos-row">
+                    <img src="BIS.png" title="BIS">
+                    <img src="BIMIT.png" title="BIMIT">
+                    <img src="Autodesk.jpg" title="Autodesk">
+                </div>
+            </div>
+
+            <!-- 4. FEATURE: CERTIFICATION -->
+            <div class="box box-feature" style="background: #E3F2FD;">
+                <div class="box-label">VALUE</div>
+                <div class="feat-icon">📜</div>
+                <div class="feat-title">Valid Certs.</div>
+                <p>AutoCAD Course + Internship Certificate.</p>
+            </div>
+
+            <!-- 5. PRICING -->
+            <div class="box box-price">
+                <div class="price-val">₹1700</div>
+                <div class="price-sub">Total Fee (₹700 Advance)</div>
+            </div>
+
+            <!-- 6. FEATURE: SEATS -->
+            <div class="box box-feature" style="background: #FFEBEE;">
+                <div class="box-label">URGENT</div>
+                <div class="feat-icon">🔥</div>
+                <div class="feat-title">50 Seats.</div>
+                <p>Limited batch size. Filling fast.</p>
+            </div>
+
+        </div>
+
+        <!-- DETAILS SECTION -->
+        <div class="details-section" id="learn">
+
+            <!-- LEFT: CURRICULUM -->
+            <div class="content-block">
+                <h2>What You Build</h2>
+                <p>Forget boring theory. This is a production-ready workflow.</p>
+
+                <div class="check-item">
+                    <div style="width:20px; height:20px; background:var(--blue); border-radius:50%"></div>
+                    Interface & Coordinate Systems
+                </div>
+                <div class="check-item">
+                    <div style="width:20px; height:20px; background:var(--red); border-radius:50%"></div>
+                    Professional 2D Drafting
+                </div>
+                <div class="check-item">
+                    <div style="width:20px; height:20px; background:var(--gold); border-radius:50%"></div>
+                    Layers, Blocks & Annotations
+                </div>
+                <div class="check-item">
+                    <div style="width:20px; height:20px; background:var(--black); border-radius:50%"></div>
+                    Complex Plan & Section Views
+                </div>
+            </div>
+
+            <!-- RIGHT: FAQ -->
+            <div class="content-block" style="background: var(--bg);">
+                <h2>FAQ</h2>
+
+                <button class="accordion-btn">Who Can Join?</button>
+                <div class="accordion-panel">
+                    <p style="padding-top:10px">Civil Engineering Students, Diploma Holders, and Architects.</p>
+                </div>
+
+                <button class="accordion-btn">Laptop?</button>
+                <div class="accordion-panel">
+                    <p style="padding-top:10px">Highly recommended. Bring your own device for best practice.</p>
+                </div>
+
+                <button class="accordion-btn">Venue?</button>
+                <div class="accordion-panel">
+                    <p style="padding-top:10px">Offline at CUSAT Campus / BIMIT Training Center.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div style="font-weight: 800; font-family: var(--font-head); font-size: 1.5rem;">BIS CIVIL</div>
+        <div style="text-align: right; font-size: 0.9rem;">
+            <div>Coordinators: 9207551768</div>
+            <div>© 2025 All Rights Reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Accordion Logic
+        document.querySelectorAll('.accordion-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const panel = btn.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

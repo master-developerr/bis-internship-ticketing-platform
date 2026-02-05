@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Workspace | BIS Intern</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* HYBRID PALETTE (SaaS + Neo) */
+            --primary: #6366f1;
+            /* Indigo */
+            --primary-dark: #4f46e5;
+            --success: #10b981;
+            /* Emerald 500 */
+            --warning: #f59e0b;
+            /* Amber 500 */
+            --danger: #ef4444;
+            /* Red 500 */
+
+            --dark: #0f172a;
+            /* Slate 900 */
+            --slate: #64748b;
+            --light: #f8fafc;
+            --surface: #ffffff;
+            --border-color: #1e293b;
+            /* Darker Slate for definition */
+
+            /* HYBRID TOKENS */
+            --shadow-hard: 3px 3px 0px #0f172a;
+            /* THE NEO TOUCH */
+            --shadow-soft: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --radius: 8px;
+            --border-width: 1px;
+
+            --font-head: 'Space Grotesk', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: #f1f5f9;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+            width: 100vw;
+            position: relative;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        /* TYPOGRAPHY */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: var(--font-head);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--dark);
+        }
+
+        /* BUTTONS - HYBRID STYLE */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--surface);
+            color: var(--dark);
+            border: 2px solid var(--dark);
+            /* NEO BORDER */
+            padding: 8px 18px;
+            font-family: var(--font-head);
+            /* NEO FONT */
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hard);
+            /* NEO SHADOW */
+            transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px var(--dark);
+        }
+
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px var(--dark);
+        }
+
+        .btn.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--dark);
+        }
+
+        .btn.primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn.danger {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+
+        /* INPUTS */
+        input,
+        select {
+            padding: 10px 14px;
+            border: 2px solid #cbd5e1;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.2s;
+            width: 100%;
+            background: var(--surface);
+            color: var(--dark);
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--dark);
+            box-shadow: 3px 3px 0px var(--primary);
+            /* Neo focus */
+        }
+
+        /* CARDS - SAAS STRUCTURE, NEO EDGES */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            /* Clean border */
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            /* Base soft shadow */
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+
+        /* Hover effect for interaction */
+        .kpi-card {
+            border: 1px solid var(--border-color);
+            cursor: default;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hard);
+            border-color: var(--dark);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        /* SIDEBAR - PROFESSIONAL DARK */
+        .sidebar {
+            width: 260px;
+            background: var(--dark);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            color: #94a3b8;
+            z-index: 100;
+        }
+
+        .logo-area {
+            color: white;
+            font-family: var(--font-head);
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-area span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid transparent;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .user-area {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            color: white;
+        }
+
+        /* MAIN */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 0;
+        }
+
+        .top-header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .breadcrumbs {
+            font-size: 0.9rem;
+            color: var(--slate);
+        }
+
+        .breadcrumbs span {
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        /* GRID */
+        .dashboard-grid {
+            padding: 32px;
+            gap: 24px;
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+        }
+
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .content-split {
+            display: grid;
+            grid-template-columns: 2.5fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* KPI */
+        .kpi-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--slate);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .kpi-value {
+            font-family: var(--font-head);
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1;
+            color: var(--dark);
+        }
+
+        .kpi-sub {
+            font-size: 0.8rem;
+            color: var(--slate);
+            margin-top: 8px;
+        }
+
+        /* TABLE - CLEAN PROFESSIONAL */
+        .table-wrapper {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: #f8fafc;
+            text-align: left;
+            padding: 14px 24px;
+            font-weight: 700;
+            color: var(--slate);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 16px 24px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        /* TAGS - HIGH CONTRAST PILLS */
+        .tag {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-family: var(--font-head);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+        }
+
+        .tag.approved {
+            background: #dcfce7;
+            color: #15803d;
+            border-color: #86efac;
+        }
+
+        .tag.pending {
+            background: #fef3c7;
+            color: #b45309;
+            border-color: #fcd34d;
+        }
+
+        .tag.rejected {
+            background: #fee2e2;
+            color: #b91c1c;
+            border-color: #fca5a5;
+        }
+
+        /* MODALS */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-box {
+            background: var(--surface);
+            padding: 32px;
+            border-radius: 12px;
+            border: 2px solid var(--dark);
+            /* NEO BORDER */
+            box-shadow: 8px 8px 0px var(--primary);
+            /* NEO SHADOW */
+            width: 90%;
+            max-width: 500px;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: var(--dark);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: 2px solid var(--light);
+            box-shadow: 4px 4px 0px var(--danger);
+            transform: translateY(-150%);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 3000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: var(--success);
+            box-shadow: 4px 4px 0px #064e3b;
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        /* --- MOBILE OPTIMIZATION (STRICT OVERFLOW) --- */
+        @media (max-width: 1024px) {
+            .content-split {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            /* Sidebar transitions */
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 10px 0 20px rgba(0, 0, 0, 0.3);
+                width: 280px;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            /* Main Content full width */
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                max-width: 100vw;
+                overflow-x: hidden;
+            }
+
+            .top-header {
+                padding: 16px;
+                gap: 12px;
+                max-width: 100vw;
+            }
+
+            /* Layout stacking */
+            .dashboard-grid {
+                padding: 16px;
+                gap: 16px;
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                max-width: 100vw;
+                box-sizing: border-box;
+            }
+
+            .kpi-row {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 16px;
+                width: 100%;
+            }
+
+            /* Hide non-essential items */
+            .breadcrumbs {
+                display: none;
+            }
+
+            /* Full width search */
+            #searchInput {
+                width: 100% !important;
+                margin-bottom: 0;
+            }
+
+            /* Show Hamburger */
+            .menu-toggle {
+                display: flex !important;
+                margin-right: 12px;
+            }
+
+            /* Ensure table scrolls internally */
+            .table-wrapper {
+                width: 100%;
+                overflow-x: auto;
+                display: block;
+                max-width: calc(100vw - 32px);
+            }
+
+            /* Fix overflow */
+            body {
+                overflow-x: hidden !important;
+                width: 100%;
+                position: relative;
+            }
+        }
+
+        /* MOBILE OVERLAY */
+        #sidebarOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 99;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #sidebarOverlay.show {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- APP CONFIG -->
+    <script>
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYyjnVuAnc8MHJ-iOMNXkUdeKI29FZn1IEwDs0e--ksX3V2qva9lXZAH4MCk6UeEZN/exec';
+        const VERIFY_PAGE_URL = 'https://bis-registration.netlify.app/verify.html';
+        let ADMIN_KEY = localStorage.getItem('adminKey');
+    </script>
+
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="modal-overlay" style="display: none;">
+        <div class="modal-box" style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 10px;">🔒</div>
+            <h2 style="margin-bottom: 24px;">Admin Access</h2>
+            <input type="password" id="adminKeyInput" placeholder="Enter Security Key"
+                style="text-align: center; font-size: 1.2rem; letter-spacing: 4px; margin-bottom: 24px;">
+            <button class="btn primary" onclick="saveKey()" style="width: 100%; padding: 12px;">Login Dashboard</button>
+        </div>
+    </div>
+
+    <!-- SCANNER MODAL -->
+    <div id="scannerModal" class="modal-overlay" style="display: none;">
+        <div class="modal-box" style="max-width: 600px;">
+            <div class="card-header">
+                <h3>Scan Ticket</h3>
+                <button class="btn" onclick="closeScanner()">Close</button>
+            </div>
+
+            <!-- ATTENDANCE CONTROLS -->
+            <div
+                style="background:var(--light); padding:16px; border-radius:8px; margin-bottom:20px; border:1px solid var(--border-color);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <label style="font-weight:600; display:flex; align-items:center; gap:10px; cursor:pointer;">
+                        <input type="checkbox" id="attendanceModeToggle" onchange="toggleAttendanceMode()"
+                            style="width:18px; height:18px;">
+                        Attendance Mode
+                    </label>
+                    <span id="attStatus" class="tag">OFF</span>
+                </div>
+                <div id="daySelector"
+                    style="display:none; gap:16px; padding-top:12px; border-top:1px solid var(--border-color);">
+                    <label style="display:flex; align-items:center; gap:6px; font-weight:500;"><input type="radio"
+                            name="attDay" value="day1" checked> Day 1</label>
+                    <label style="display:flex; align-items:center; gap:6px; font-weight:500;"><input type="radio"
+                            name="attDay" value="day2"> Day 2</label>
+                    <label style="display:flex; align-items:center; gap:6px; font-weight:500;"><input type="radio"
+                            name="attDay" value="day3"> Day 3</label>
+                </div>
+            </div>
+
+            <div id="reader"
+                style="width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color);"></div>
+        </div>
+    </div>
+
+    <!-- DETAILS MODAL -->
+    <div id="detailModal" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <div class="card-header">
+                <h3>Guest Details</h3>
+                <button onclick="document.getElementById('detailModal').style.display='none'"
+                    style="border:none; background:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+            </div>
+            <div id="detailContent" style="display:grid; gap:12px;"></div>
+        </div>
+    </div>
+
+    <!-- EDIT STATUS MODAL -->
+    <div id="editModal" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <h3 style="margin-bottom:16px;">Update Status</h3>
+            <p id="editModalName" style="margin-bottom:16px; color:var(--slate);"></p>
+            <select id="editStatusSelect" style="margin-bottom:24px;">
+                <option value="Approved">Approved</option>
+                <option value="Pending">Pending</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+            <div class="btn-group" style="display:flex; gap:12px;">
+                <button class="btn primary" style="flex:1;" onclick="submitStatusUpdate()">Save Changes</button>
+                <button class="btn" style="flex:1;"
+                    onclick="document.getElementById('editModal').style.display='none'">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR OVERLAY -->
+    <div id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="appSidebar">
+        <div class="logo-area">
+            <span>◆</span> BIS INTERN
+        </div>
+        <nav class="nav-links">
+            <a onclick="setView('dashboard')" class="nav-item active">
+                <span>📊</span> Dashboard
+            </a>
+            <a onclick="openScanner()" class="nav-item">
+                <span>📷</span> Scan Ticket
+            </a>
+            <a onclick="window.open('https://docs.google.com/spreadsheets/d/1O9TJZNoI4222-N3h9rHoC6WTRZtZdEfc047znE_0AMU/edit?usp=sharing', '_blank')"
+                class="nav-item">
+                <span>📑</span> Database
+            </a>
+        </nav>
+        <div class="user-area">
+            <div style="font-weight:600;">Admin Administrator</div>
+            <div class="sub" onclick="localStorage.removeItem('adminKey'); location.reload();" style="cursor:pointer;">
+                Sign Out</div>
+        </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="main-content" id="dashboardContent" style="display:none;">
+
+        <header class="top-header">
+            <div style="display:flex; align-items:center;">
+                <!-- HAMBURGER MENU -->
+                <button class="menu-toggle btn" onclick="toggleSidebar()"
+                    style="display:none; padding:8px; border:none; background:transparent; font-size:1.5rem; cursor:pointer;">
+                    ☰
+                </button>
+                <div class="breadcrumbs">
+                    App / <span>Dashboard</span>
+                </div>
+            </div>
+            <div style="display:flex; gap:16px;">
+                <input type="text" id="searchInput" placeholder="Search guests..." onkeyup="filterLocal()"
+                    style="width: 250px;">
+                <button class="btn primary" onclick="openScanner()">Scan Ticket</button>
+            </div>
+        </header>
+
+        <div class="dashboard-grid">
+
+            <!-- KPIS -->
+            <div class="kpi-row">
+                <div class="card kpi-card">
+                    <div class="kpi-label">Total Guests</div>
+                    <div class="kpi-value" id="kpi-total">-</div>
+                    <div class="kpi-sub">Lifetime registrations</div>
+                </div>
+                <div class="card kpi-card">
+                    <div class="kpi-label" style="color:var(--success);">Approved</div>
+                    <div class="kpi-value" id="kpi-approved" style="color:var(--success);">-</div>
+                    <div class="kpi-sub">Paid & Verified</div>
+                </div>
+                <div class="card kpi-card">
+                    <div class="kpi-label" style="color:var(--warning);">Pending</div>
+                    <div class="kpi-value" id="kpi-pending" style="color:var(--warning);">-</div>
+                    <div class="kpi-sub">Action required</div>
+                </div>
+                <div class="card kpi-card">
+                    <div class="kpi-label">Checked In</div>
+                    <div class="kpi-value" id="kpi-checkedIn">-</div>
+                    <div class="kpi-sub" id="kpi-checkrate">0% Attendance</div>
+                </div>
+            </div>
+
+            <div class="content-split">
+
+                <!-- MAIN TABLE -->
+                <div class="card"
+                    style="padding:0; overflow:hidden; border:none; background:transparent; box-shadow:none;">
+                    <div class="card"
+                        style="margin-bottom:0; border-bottom-left-radius:0; border-bottom-right-radius:0; border-bottom:none;">
+                        <div class="card-header">
+                            <h3 class="card-title">Recent Activity</h3>
+                            <div style="display:flex; gap:8px;">
+                                <select id="statusFilter" onchange="filterLocal()" style="width:auto;">
+                                    <option value="all">All</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="pending">Pending</option>
+                                </select>
+                                <button class="btn" onclick="loadStats()">↻</button>
+                                <button class="btn" onclick="exportCSV()">CSV</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-wrapper"
+                        style="border-top-left-radius:0; border-top-right-radius:0; background:var(--surface);">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Registered</th>
+                                    <th>Attendee</th>
+                                    <th>Status</th>
+                                    <th>Attendance</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentTableBody">
+                                <tr>
+                                    <td colspan="5" style="text-align:center; padding:32px; color:var(--slate);">Loading
+                                        Data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- WIDGETS -->
+                <div style="display:flex; flex-direction:column; gap:24px;">
+
+                    <!-- ATTENDANCE -->
+                    <div class="card kpi-card">
+                        <div class="card-header">
+                            <h4 style="font-size:0.9rem; text-transform:uppercase; color:var(--slate);">Attendance Log
+                            </h4>
+                        </div>
+                        <div style="display:flex; text-align:center; justify-content:space-around;">
+                            <div>
+                                <div style="font-size:0.75rem; font-weight:600; color:var(--slate); margin-bottom:4px;">
+                                    DAY 1</div>
+                                <div id="att-d1" style="font-size:1.5rem; font-weight:700; color:var(--primary);">-
+                                </div>
+                            </div>
+                            <div style="width:1px; background:var(--border-color);"></div>
+                            <div>
+                                <div style="font-size:0.75rem; font-weight:600; color:var(--slate); margin-bottom:4px;">
+                                    DAY 2</div>
+                                <div id="att-d2" style="font-size:1.5rem; font-weight:700; color:var(--primary);">-
+                                </div>
+                            </div>
+                            <div style="width:1px; background:var(--border-color);"></div>
+                            <div>
+                                <div style="font-size:0.75rem; font-weight:600; color:var(--slate); margin-bottom:4px;">
+                                    DAY 3</div>
+                                <div id="att-d3" style="font-size:1.5rem; font-weight:700; color:var(--primary);">-
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LIVE FEED -->
+                    <div class="card" style="max-height:300px;">
+                        <div class="card-header">
+                            <h4 style="font-size:0.9rem; text-transform:uppercase; color:var(--slate);">Live Feed</h4>
+                        </div>
+                        <div id="scanList" style="overflow-y:auto; font-size:0.8rem; color:var(--slate);">
+                            <div style="padding:8px 0; font-style:italic;">Ready for scans...</div>
+                        </div>
+                    </div>
+
+                    <!-- MANUAL -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 style="font-size:0.9rem; text-transform:uppercase; color:var(--slate);">Manual Check-in
+                            </h4>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" id="manualTicketInput" placeholder="Ticket ID">
+                            <button class="btn primary" onclick="manualCheckIn()">Go</button>
+                        </div>
+                    </div>
+
+                    <!-- CHART -->
+                    <div class="card">
+                        <div style="height:150px; position:relative;">
+                            <canvas id="paymentChart"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="toast" class="toast">Notification</div>
+
+    <!-- LOGIC PRESERVED -->
+    <script>
+        // --- AUTH & INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!ADMIN_KEY) {
+                document.getElementById('loginModal').style.display = 'flex';
+            } else {
+                document.getElementById('dashboardContent').style.display = 'block';
+                loadStats();
+                // setInterval(loadStats, 30000); // Auto refresh
+            }
+        });
+
+        function saveKey() {
+            const val = document.getElementById('adminKeyInput').value;
+            if (val) { localStorage.setItem('adminKey', val); ADMIN_KEY = val; location.reload(); }
+        }
+
+        // --- DATA HANDLING ---
+        let currentData = null;
+        let filteredData = [];
+
+        async function loadStats() {
+            try {
+                const res = await fetch(`${APPS_SCRIPT_URL}?action=stats&lastDays=999&adminKey=${encodeURIComponent(ADMIN_KEY)}&_t=${Date.now()}`);
+                const json = await res.json();
+
+                if (json.success) {
+                    currentData = json;
+                    renderDashboard(json);
+                } else if (json.message && json.message.includes("Unauthorized")) {
+                    alert("Session Expired"); localStorage.removeItem('adminKey'); location.reload();
+                } else {
+                    showToast('Data Load Error', 'error');
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Network Error', 'error');
+            }
+        }
+
+        function renderDashboard(data) {
+            // KPIs
+            if (data.meta) {
+                ['total', 'approved', 'pending'].forEach(k => {
+                    if (document.getElementById(`kpi-${k}`)) document.getElementById(`kpi-${k}`).innerText = data.meta[k];
+                });
+
+                if (document.getElementById('kpi-checkedIn')) document.getElementById('kpi-checkedIn').innerText = data.meta.checkedIn;
+                if (document.getElementById('kpi-checkrate')) document.getElementById('kpi-checkrate').innerText = data.meta.checkedInPct + "% Rate";
+
+                // Attendance Widgets
+                if (document.getElementById('att-d1')) document.getElementById('att-d1').innerText = data.meta.d1 || 0;
+                if (document.getElementById('att-d2')) document.getElementById('att-d2').innerText = data.meta.d2 || 0;
+                if (document.getElementById('att-d3')) document.getElementById('att-d3').innerText = data.meta.d3 || 0;
+            }
+
+            // Charts
+            if (Chart.getChart("paymentChart")) Chart.getChart("paymentChart").destroy();
+            new Chart(document.getElementById('paymentChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Paid', 'Pending'],
+                    datasets: [{
+                        data: [data.breakdown.paid, data.breakdown.pending],
+                        backgroundColor: ['#10b981', '#f59e0b'],
+                        borderWidth: 0
+                    }]
+                },
+                options: { plugins: { legend: { display: false } }, cutout: '75%', responsive: true, maintainAspectRatio: false }
+            });
+
+            // Table
+            renderTable(data.recent);
+        }
+
+        function renderTable(list) {
+            const tbody = document.getElementById('recentTableBody');
+            tbody.innerHTML = '';
+
+            if (!list || list.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:32px; color:var(--slate);">No records found</td></tr>';
+                return;
+            }
+
+            list.forEach((row, index) => {
+                const d1 = row.Day1 ? '✅' : '<span style="color:#cbd5e1">●</span>';
+                const d2 = row.Day2 ? '✅' : '<span style="color:#cbd5e1">●</span>';
+                const d3 = row.Day3 ? '✅' : '<span style="color:#cbd5e1">●</span>';
+
+                const dateStr = row.Timestamp ? new Date(row.Timestamp).toLocaleDateString() : 'N/A';
+                const timeStr = row.Timestamp ? new Date(row.Timestamp).toLocaleTimeString() : '';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div style="font-weight:600; color:var(--dark);">${dateStr}</div>
+                        <div style="font-size:0.75rem; color:var(--slate);">${timeStr}</div>
+                    </td>
+                    <td>
+                        <div style="font-weight:600; color:var(--primary); cursor:pointer;" onclick="viewDetails(${index})">${row.Name}</div>
+                        <div style="font-size:0.75rem; color:var(--slate);">${row.Email}</div>
+                    </td>
+                    <td><span class="tag ${row.Status.toLowerCase()}">${row.Status}</span></td>
+                    <td style="letter-spacing:4px; font-size:0.9rem;">${d1} ${d2} ${d3}</td>
+                    <td>
+                        <button class="btn" style="padding:6px 10px;" onclick="openEditModal(${index})">Edit</button> 
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterLocal() {
+            if (!currentData) return;
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const status = document.getElementById('statusFilter').value;
+
+            const filtered = currentData.recent.filter(r => {
+                const searchMatch = !q || r.Name.toLowerCase().includes(q) || (r.Email && r.Email.toLowerCase().includes(q));
+                const statusMatch = status === 'all' || r.Status.toLowerCase() === status;
+                return searchMatch && statusMatch;
+            });
+
+            renderTable(filtered);
+            filteredData = filtered;
+        }
+
+        // --- SCANNER LOGIC ---
+        let html5QrcodeScanner = null;
+
+        function openScanner() {
+            const modal = document.getElementById('scannerModal');
+            modal.style.display = 'flex';
+
+            // Clean up existing instance if any (just in case)
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.clear().catch(err => console.error("Failed to clear existing scanner", err));
+            }
+
+            // Create new instance
+            html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        }
+
+        async function closeScanner() {
+            const modal = document.getElementById('scannerModal');
+
+            if (html5QrcodeScanner) {
+                try {
+                    await html5QrcodeScanner.clear();
+                    // IMPORTANT: The clear() method removes the video element and stops the stream
+                } catch (error) {
+                    console.error("Failed to clear scanner", error);
+                }
+                html5QrcodeScanner = null;
+            }
+
+            modal.style.display = 'none';
+        }
+
+        async function onScanSuccess(decodedText) {
+            if (document.body.getAttribute('scanning')) return;
+            document.body.setAttribute('scanning', 'true');
+
+            try {
+                // Parse URL to get params
+                // URLs format: .../verify.html?ticket=ID&t=TOKEN
+                const url = new URL(decodedText);
+                const ticketId = url.searchParams.get('ticket');
+                const token = url.searchParams.get('t') || url.searchParams.get('token');
+
+                if (!ticketId || !token) {
+                    throw new Error("Missing parameters in QR");
+                }
+
+                const isAttMode = document.getElementById('attendanceModeToggle').checked;
+
+                if (isAttMode) {
+                    const day = document.querySelector('input[name="attDay"]:checked').value;
+                    showToast(`Marking ${day}...`);
+
+                    // handleMarkAttendance expects: { ticket, token, day ... }
+                    const res = await fetch(APPS_SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            action: 'markAttendance',
+                            ticket: ticketId,  // Key must be 'ticket'
+                            token: token,      // Key must be 'token'
+                            day: day,
+                            adminKey: ADMIN_KEY
+                        })
+                    });
+                    const json = await res.json();
+                    if (json.status === 'success' || json.success) { // Handle inconsistent success keys if any
+                        showToast(`✅ ${day} MARKED`, 'success');
+                        prependLog(`ATT: ${day} - ${ticketId}`, 'success');
+                    } else {
+                        showToast(json.message || "Error marking attendance", 'error');
+                        prependLog(`ERR: ${json.message}`, 'error');
+                    }
+
+                } else {
+                    showToast('Checking In...');
+                    // handleCheckIn expects: { ticket, t ... }
+                    const res = await fetch(APPS_SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            action: 'checkin',
+                            ticket: ticketId, // Key must be 'ticket'
+                            t: token,         // Key must be 't'
+                            adminKey: ADMIN_KEY
+                        })
+                    });
+                    const json = await res.json();
+                    if (json.status === 'success') {
+                        showToast('✅ CHECKED IN', 'success');
+                        prependLog(`IN: ${json.message.replace('Check-in Successful for ', '')}`, 'success');
+                        loadStats();
+                    } else {
+                        showToast(json.message, 'error');
+                        prependLog(`FAIL: ${json.message}`, 'error');
+                    }
+                }
+
+            } catch (e) {
+                console.error(e);
+                showToast('Invalid Ticket QR', 'error');
+                prependLog(`INVALID: ${decodedText.substring(0, 20)}...`, 'error');
+            } finally {
+                setTimeout(() => document.body.removeAttribute('scanning'), 2000);
+            }
+        }
+
+        function onScanFailure(error) { }
+
+        function toggleAttendanceMode() {
+            const on = document.getElementById('attendanceModeToggle').checked;
+            document.getElementById('daySelector').style.display = on ? 'flex' : 'none';
+            document.getElementById('attStatus').innerText = on ? "ON" : "OFF";
+            document.getElementById('attStatus').className = on ? "tag approved" : "tag";
+        }
+
+        // --- UTILS ---
+        function showToast(msg, type = 'info') {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.className = `toast show ${type}`;
+            setTimeout(() => t.className = 'toast', 3000);
+        }
+
+        function prependLog(msg, type) {
+            const d = document.createElement('div');
+            d.innerHTML = `<b>${new Date().toLocaleTimeString()}</b> ${msg}`;
+            d.style.padding = "4px 0";
+            d.style.borderBottom = "1px solid #f1f5f9";
+            d.style.color = type === 'success' ? 'var(--success)' : 'var(--dark)';
+            document.getElementById('scanList').prepend(d);
+        }
+
+        function viewDetails(index) {
+            const list = filteredData.length ? filteredData : currentData.recent;
+            const reg = list[index];
+
+            const ticketLinkDisplay = reg.TicketLink
+                ? `<a href="${reg.TicketLink}" target="_blank" style="color:var(--primary); word-break:break-all;">${reg.TicketLink}</a>`
+                : '<span style="color:var(--slate)">Not generated</span>';
+
+            const proofDisplay = reg.ProofURL
+                ? `<a href="${reg.ProofURL}" target="_blank" style="color:var(--primary);">View Proof</a>`
+                : '<span style="color:var(--slate)">No Upload</span>';
+
+            const html = `
+                <div class="card" style="box-shadow:none; border:none; padding:0; gap:16px;">
+                    <div>
+                        <div style="font-size:0.75rem; font-weight:700; color:var(--slate); text-transform:uppercase;">Attendee</div>
+                        <div style="font-size:1.5rem; font-weight:800; color:var(--dark);">${reg.Name}</div>
+                        <div style="font-size:0.9rem; color:var(--slate);">${reg.Email}</div>
+                        <div style="font-size:0.9rem; color:var(--slate);">${reg.Phone || 'No Phone'}</div>
+                    </div>
+                    
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                        <div>
+                            <div style="font-size:0.75rem; font-weight:700; color:var(--slate); text-transform:uppercase;">Status</div>
+                            <span class="tag ${reg.Status.toLowerCase()}">${reg.Status}</span>
+                        </div>
+                        <div>
+                            <div style="font-size:0.75rem; font-weight:700; color:var(--slate); text-transform:uppercase;">Checked In</div>
+                            <span style="font-weight:600; color:${reg.CheckedIn === 'Yes' ? 'var(--success)' : 'var(--slate)'}">${reg.CheckedIn}</span>
+                        </div>
+                    </div>
+
+                    <div style="background:var(--light); padding:12px; border-radius:8px; border:1px solid var(--border-color);">
+                        <div style="font-size:0.75rem; font-weight:700; color:var(--slate); text-transform:uppercase; margin-bottom:4px;">Transaction Info</div>
+                        <div style="font-size:0.9rem;"><strong>ID:</strong> ${reg['Transaction ID'] || 'N/A'}</div>
+                        <div style="font-size:0.9rem; margin-top:4px;"><strong>Proof:</strong> ${proofDisplay}</div>
+                    </div>
+
+                    <div style="background:var(--light); padding:12px; border-radius:8px; border:1px solid var(--border-color);">
+                        <div style="font-size:0.75rem; font-weight:700; color:var(--slate); text-transform:uppercase; margin-bottom:4px;">Ticket Details</div>
+                        <div style="font-size:0.9rem;"><strong>ID:</strong> ${reg.TicketID || '-'}</div>
+                        <div style="font-size:0.9rem; margin-top:4px;"><strong>Link:</strong> ${ticketLinkDisplay}</div>
+                        ${reg.TicketQR ? `<div style="font-size:0.9rem; margin-top:4px;"><strong>QR:</strong> <a href="${reg.TicketQR}" target="_blank" style="color:var(--primary);">View QR File</a></div>` : ''}
+                    </div>
+
+                    <div>
+                         <div style="font-size:0.75rem; font-weight:700; color:var(--slate); text-transform:uppercase; margin-bottom:8px;">Attendance</div>
+                         <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px;">
+                            <div style="background:#f8fafc; padding:8px; border-radius:6px; text-align:center;">
+                                <div style="font-size:0.7rem; color:var(--slate);">DAY 1</div>
+                                <div style="font-weight:600;">${reg.Day1 ? '✅' : '-'}</div>
+                            </div>
+                            <div style="background:#f8fafc; padding:8px; border-radius:6px; text-align:center;">
+                                <div style="font-size:0.7rem; color:var(--slate);">DAY 2</div>
+                                <div style="font-weight:600;">${reg.Day2 ? '✅' : '-'}</div>
+                            </div>
+                            <div style="background:#f8fafc; padding:8px; border-radius:6px; text-align:center;">
+                                <div style="font-size:0.7rem; color:var(--slate);">DAY 3</div>
+                                <div style="font-weight:600;">${reg.Day3 ? '✅' : '-'}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             `;
+            document.getElementById('detailContent').innerHTML = html;
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+
+        async function manualCheckIn() {
+            const ticketId = document.getElementById('manualTicketInput').value;
+            if (!ticketId) return;
+            showToast('Processing...');
+            const res = await fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'manual_checkin', ticketId, adminKey: ADMIN_KEY })
+            });
+            const json = await res.json();
+            if (json.status === 'success') {
+                showToast('Checked In', 'success');
+                loadStats();
+            } else showToast(json.message, 'error');
+        }
+
+        // --- EDIT/DELETE ---
+        let editIdx = -1;
+        function openEditModal(i) {
+            editIdx = i;
+            const list = filteredData.length ? filteredData : currentData.recent;
+            const reg = list[i];
+            document.getElementById('editModalName').innerText = reg.Name;
+            document.getElementById('editStatusSelect').value = reg.Status;
+            document.getElementById('editModal').style.display = 'flex';
+            document.getElementById('editModal').dataset.row = reg.Row;
+        }
+
+        async function submitStatusUpdate() {
+            const row = document.getElementById('editModal').dataset.row;
+            const status = document.getElementById('editStatusSelect').value;
+
+            const res = await fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'update_status', row, status, adminKey: ADMIN_KEY })
+            });
+            showToast('Updated!', 'success');
+            document.getElementById('editModal').style.display = 'none';
+            setTimeout(loadStats, 500);
+        }
+
+        function exportCSV() {
+            let csv = "Name,Email,Status,Ticket,CheckedIn\n";
+            currentData.recent.forEach(r => {
+                csv += `${r.Name},${r.Email},${r.Status},${r.TicketID},${r.CheckedIn}\n`;
+            });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+            a.download = 'export.csv';
+            a.click();
+        }
+
+        function toggleSidebar() {
+            const sb = document.getElementById('appSidebar');
+            const ov = document.getElementById('sidebarOverlay');
+            sb.classList.toggle('mobile-open');
+            ov.classList.toggle('show');
+        }
+
+    </script>
+</body>
+
+</html>
